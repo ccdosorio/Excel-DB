@@ -17,6 +17,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import java.util.Arrays;
 /**
  *
  * @author programacion
@@ -45,9 +46,9 @@ public class Principal {
             HSSFCell cell;
             HSSFRow row;
 
-            System.out.println("Apunto de entrar a loops");
+            System.out.println("!!!!!!!Apunto de entrar a loops!!!!!");
 
-            System.out.println("" + sheet.getLastRowNum());
+            System.out.println("!!!!!Numero de filas " + sheet.getLastRowNum()+"!!!!");
 
             for (int i = 0; i < sheet.getLastRowNum() + 1; i++) {
                 row = sheet.getRow(i);
@@ -56,9 +57,19 @@ public class Principal {
                     cell = row.getCell(j);
                     cadena_texto += cell.toString();
                 }
-                System.out.println(cadena_texto);
-            }
-            System.out.println("Finalizado");
+                String year = "";
+                String[] parts = cadena_texto.split("::");
+                String[] descandenarYear = parts[1].split("\\(");
+                
+                if(descandenarYear.length > 2){
+                    descandenarYear[0] += ("(" + descandenarYear[1]);
+                    year = descandenarYear[2].split("\\)")[0];
+                }else{
+                    year = descandenarYear[1].split("\\)")[0];
+                }
+                System.out.println(parts[0] + ", " + descandenarYear[0] + ", " + year + ", " + parts[2]);
+            } 
+            System.out.println("!!!!!Finalizado!!!!!");
 
         } catch (Exception e) {
             // TODO: handle exception
