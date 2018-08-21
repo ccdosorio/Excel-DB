@@ -16,8 +16,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import java.util.Arrays;
+
 /**
  *
  * @author programacion
@@ -27,18 +26,14 @@ public class Principal {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws Exception  {
+
 
         String fileName = "C:\\Users\\informatica\\Desktop\\movies.xls";        
         
-        //CreateExcel(fileName, data);
-        ReadExcel(fileName);
-        //OverwriteExcel(fileName, data); 
-        
-    }
-
-    private static void ReadExcel(String fileName) {
-        try {
+            try {
+            ConnectionDB conn = new ConnectionDB();
+            conn.connDataBase();
             InputStream myFile = new FileInputStream(new File(fileName));
             HSSFWorkbook wb = new HSSFWorkbook(myFile);
             HSSFSheet sheet = wb.getSheetAt(0);
@@ -64,10 +59,14 @@ public class Principal {
                 if(descandenarYear.length > 2){
                     descandenarYear[0] += ("(" + descandenarYear[1]);
                     year = descandenarYear[2].split("\\)")[0];
+                }else if(descandenarYear.length > 3){
+                    descandenarYear[0] += ("(" + descandenarYear[1]);
+                    year = descandenarYear[2].split("\\)")[0];
                 }else{
                     year = descandenarYear[1].split("\\)")[0];
                 }
-                System.out.println(parts[0] + ", " + descandenarYear[0] + ", " + year + ", " + parts[2]);
+                System.out.println("id: "+parts[0] + " Movie: " + descandenarYear[0] + " Year: " + year + " Category: " + parts[2]);
+                conn.enviarDatos("INSERT INTO movies (id, peliculas, years, categorias) values ('" + parts[0] + "', \"" + descandenarYear[0]  + "\", \"" + year + "\", \"" + parts[2] +  "\")");
             } 
             System.out.println("!!!!!Finalizado!!!!!");
 
@@ -75,6 +74,8 @@ public class Principal {
             // TODO: handle exception
             System.out.println(e.getMessage());
         }
-    }    
+        
+    }
+
     
 }

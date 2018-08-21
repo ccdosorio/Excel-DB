@@ -5,20 +5,32 @@
  */
 package leerexcel;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Date;
+import java.sql.*;
 
 /**
  *
  * @author programacion
  */
 public class ConnectionDB {
+
+    private Connection connect = null;
     
+    public void connDataBase() throws Exception {
+        
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/dataexcel?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=osorio&password=osorio");
+            System.out.println("!!!!Successfull!!!!");  
+            
+        } catch (Exception e) {
+            throw e;
+        }
+        
+    }
     
+    public boolean enviarDatos(String sql) throws SQLException{
+        
+        return connect.createStatement().execute(sql);
+    }
     
 }
