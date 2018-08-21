@@ -56,17 +56,18 @@ public class Principal {
                 String[] parts = cadena_texto.split("::");
                 String[] descandenarYear = parts[1].split("\\(");
                 
-                if(descandenarYear.length > 2){
-                    descandenarYear[0] += ("(" + descandenarYear[1]);
-                    year = descandenarYear[2].split("\\)")[0];
-                }else if(descandenarYear.length > 3){
+                if(descandenarYear.length > 3){
+                    descandenarYear[0] += ("(" + descandenarYear[1] + "(" + descandenarYear[2]);
+                    year = descandenarYear[3].split("\\)")[0];
+
+                }else if(descandenarYear.length > 2){
                     descandenarYear[0] += ("(" + descandenarYear[1]);
                     year = descandenarYear[2].split("\\)")[0];
                 }else{
                     year = descandenarYear[1].split("\\)")[0];
                 }
-                System.out.println("id: "+parts[0] + " Movie: " + descandenarYear[0] + " Year: " + year + " Category: " + parts[2]);
-                conn.enviarDatos("INSERT INTO movies (id, peliculas, years, categorias) values ('" + parts[0] + "', \"" + descandenarYear[0]  + "\", \"" + year + "\", \"" + parts[2] +  "\")");
+                System.out.println("id: "+parts[0] + " Movie: " + descandenarYear[0] + " Year: " + year );
+                conn.enviarDatos("INSERT INTO movies (id, peliculas, years) values ('" + parts[0] + "', \"" + descandenarYear[0]  + "\", \"" + year + "\")");
             } 
             System.out.println("!!!!!Finalizado!!!!!");
 
