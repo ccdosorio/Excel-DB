@@ -29,7 +29,7 @@ public class Principal {
     public static void main(String[] args) throws Exception  {
 
 
-        String fileName = "C:\\Users\\informatica\\Desktop\\movies.xls";        
+        String fileName = "C:\\Users\\cosor\\Desktop\\movies.xls";        
         
             try {
             ConnectionDB conn = new ConnectionDB();
@@ -67,7 +67,7 @@ public class Principal {
                     year = descandenarYear[1].split("\\)")[0];
                 }
                 System.out.println("id: "+parts[0] + " Movie: " + descandenarYear[0] + " Year: " + year );
-                conn.enviarDatos("INSERT INTO movies (id, peliculas, years) values ('" + parts[0] + "', \"" + descandenarYear[0]  + "\", \"" + year + "\")");
+                conn.enviarDatos("INSERT INTO movies (id, movieName, yearMovie) values ('" + parts[0] + "', \"" + descandenarYear[0]  + "\", \"" + year + "\")");
             } 
             System.out.println("!!!!!Finalizado!!!!!");
 
