@@ -29,7 +29,8 @@ public class Principal {
     public static void main(String[] args) throws Exception  {
 
 
-        String fileName = "C:\\Users\\cosor\\Desktop\\movies.xls";        
+        String fileName = "C:\\Users\\informatica\\Desktop\\movies.xls";     
+        
         
             try {
             ConnectionDB conn = new ConnectionDB();
@@ -40,7 +41,7 @@ public class Principal {
 
             HSSFCell cell;
             HSSFRow row;
-
+            ArrayList<String> arrayCat = new ArrayList<String>(); 
             System.out.println("!!!!!!!Apunto de entrar a loops!!!!!");
 
             System.out.println("!!!!!Numero de filas " + sheet.getLastRowNum()+"!!!!");
@@ -55,6 +56,7 @@ public class Principal {
                 String year = "";
                 String[] parts = cadena_texto.split("::");
                 String[] descandenarYear = parts[1].split("\\(");
+                String[] arrayCategory = parts[2].split("\\|");
                 
                 if(descandenarYear.length > 3){
                     descandenarYear[0] += ("(" + descandenarYear[1] + "(" + descandenarYear[2]);
@@ -66,11 +68,28 @@ public class Principal {
                 }else{
                     year = descandenarYear[1].split("\\)")[0];
                 }
-                System.out.println("id: "+parts[0] + " Movie: " + descandenarYear[0] + " Year: " + year );
-                conn.enviarDatos("INSERT INTO movies (id, movieName, yearMovie) values ('" + parts[0] + "', \"" + descandenarYear[0]  + "\", \"" + year + "\")");
-            } 
+                
+                for (int j = 0; j < arrayCategory.length; j++) {
+                    if (arrayCat.isEmpty()) {
+                        arrayCat.add(arrayCategory[j]);
+                    }else{
+                        for (int k = 0; k < arrayCat.size(); k++) {
+                            if (!(arrayCat.contains(arrayCategory[j]))) {
+                                arrayCat.add(arrayCategory[j]);
+                            }
+                        }
+                    }
+                }
+                
+                //System.out.println("id: "+parts[0] + " Movie: " + descandenarYear[0] + " Year: " + year + " Categoria: "+ parts[2]);
+                
+                //conn.enviarDatos("INSERT INTO pelicula (id, descripcion, year) values ('" + parts[0] + "', \"" + descandenarYear[0]  + "\", '" + year + "')");
+            }
             System.out.println("!!!!!Finalizado!!!!!");
-
+                for (int i = 0; i < arrayCat.size(); i++) {
+                    //conn.enviarDatos("INSERT INTO categoria(descripcion) VALUES(\""+arrayCat.get(i)+"\")");
+                    System.out.println("Category: "+ arrayCat.get(i));
+                }
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e.getMessage());
@@ -78,5 +97,4 @@ public class Principal {
         
     }
 
-    
 }
