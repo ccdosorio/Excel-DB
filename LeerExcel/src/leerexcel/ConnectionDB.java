@@ -19,7 +19,7 @@ public class ConnectionDB {
         
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connect = DriverManager.getConnection("jdbc:mysql://localhost/movies?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=osorio&password=osorio");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/movies?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=root");
             System.out.println("!!!!Successfull!!!!");  
             
         } catch (Exception e) {

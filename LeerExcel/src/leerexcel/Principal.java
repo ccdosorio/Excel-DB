@@ -28,7 +28,7 @@ public class Principal {
      */
     public static void main(String[] args) throws Exception  {
 
-        String fileName = "C:\\Users\\informatica\\Desktop\\movies.xls";
+        String fileName = "C:\\Users\\cosor\\Desktop\\movies.xls";
 
         try {
             ConnectionDB conn = new ConnectionDB();
@@ -40,7 +40,7 @@ public class Principal {
             HSSFCell cell;
             HSSFRow row;
             ArrayList<String> arrayCat = new ArrayList<String>(); 
-            System.out.println("!!!!!!!Apunto de entrar a loops!!!!!");
+            System.out.println("¡Leyendo la DATA!");
 
             System.out.println("!!!!!Numero de filas " + sheet.getLastRowNum()+"!!!!");
 
@@ -81,7 +81,7 @@ public class Principal {
                 }
              
                 System.out.println("id: "+parts[0] + " Movie: " + descandenarYear[0] + " Year: " + year); 
-                conn.enviarDatos("INSERT INTO pelicula (id, descripcion, year) values ('" + parts[0] + "', \"" + descandenarYear[0]  + "\", '" + year + "')");
+                conn.enviarDatos("INSERT INTO peliculas (id, descripcion, yearMovie) values ('" + parts[0] + "', \"" + descandenarYear[0]  + "\", '" + year + "')");
                 
                 for (int j = 0; j < arrayCat.size(); j++) {
                     for (int k = 0;  k < arrayCategory.length; k++) {
@@ -91,9 +91,8 @@ public class Principal {
                     }
                 }
             }
-            System.out.println("!!!!!Finalizado!!!!!");
                 for (int l = 0; l < arrayCat.size(); l++) {
-                    conn.enviarDatos("INSERT INTO categoria(descripcion) VALUES(\""+arrayCat.get(l)+"\")");
+                    conn.enviarDatos("INSERT INTO categorias(descripcion) VALUES(\""+arrayCat.get(l)+"\")");
                     System.out.println("Category: "+ arrayCat.get(l));
                 }
  
