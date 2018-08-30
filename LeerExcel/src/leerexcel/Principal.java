@@ -25,7 +25,7 @@ public class Principal {
      */
     public static void main(String[] args) throws Exception  {
 
-        String fileName = "C:\\Users\\cosor\\Desktop\\movies.xls";
+        String fileName = "C:\\Users\\cosor\\Desktop\\Practicas\\Primer Lab\\Excel-DB\\LeerExcel\\movies.xls";
 
         try {
             ConnectionDB conn = new ConnectionDB();
