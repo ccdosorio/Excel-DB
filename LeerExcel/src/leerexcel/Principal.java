@@ -7,11 +7,8 @@ package leerexcel;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -19,7 +16,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 /**
  *
- * @author programacion
+ * @author Christian
  */
 public class Principal {
     
@@ -36,14 +33,20 @@ public class Principal {
             InputStream myFile = new FileInputStream(new File(fileName));
             HSSFWorkbook wb = new HSSFWorkbook(myFile);
             HSSFSheet sheet = wb.getSheetAt(0);
-
+            
             HSSFCell cell;
             HSSFRow row;
+            
+            String[] parts;
+            String[] arrayCategory;
+            boolean flag = false;
+            
             ArrayList<String> arrayCat = new ArrayList<String>(); 
-            System.out.println("¡Leyendo la DATA!");
+            System.out.println("¡Leyendo la datos de la pelicula...!");
 
-            System.out.println("!!!!!Numero de filas " + sheet.getLastRowNum()+"!!!!");
-
+            System.out.println("!!!!!Numero de filas: " + sheet.getLastRowNum() + "!!!!");
+            
+            conn.iniciarTrans();
             for (int i = 0; i < sheet.getLastRowNum() + 1; i++) {
                 row = sheet.getRow(i);
                 String cadena_texto =  "";
@@ -52,11 +55,11 @@ public class Principal {
                     cell = row.getCell(j);
                     cadena_texto += cell.toString();
                 }
-                String year = "";
-                String[] parts = cadena_texto.split("::");
-                String[] descandenarYear = parts[1].split("\\(");
-                String[] arrayCategory = parts[2].split("\\|");
                 
+                String year = "";
+                parts = cadena_texto.split("::");
+                String[] descandenarYear = parts[1].split("\\(");
+                arrayCategory = parts[2].split("\\|");
                 
                 if(descandenarYear.length > 3){
                     descandenarYear[0] += ("(" + descandenarYear[1] + "(" + descandenarYear[2]);
@@ -68,6 +71,7 @@ public class Principal {
                 }else{
                     year = descandenarYear[1].split("\\)")[0];
                 }
+                
                 for (int j = 0; j < arrayCategory.length; j++) {
                     if (arrayCat.isEmpty()) {
                         arrayCat.add(arrayCategory[j]);
@@ -79,25 +83,43 @@ public class Principal {
                         }
                     }
                 }
-             
-                System.out.println("id: "+parts[0] + " Movie: " + descandenarYear[0] + " Year: " + year); 
-                conn.enviarDatos("INSERT INTO peliculas (id, descripcion, yearMovie) values ('" + parts[0] + "', \"" + descandenarYear[0]  + "\", '" + year + "')");
                 
-                for (int j = 0; j < arrayCat.size(); j++) {
-                    for (int k = 0;  k < arrayCategory.length; k++) {
-                        if(arrayCat.get(j).contains(arrayCategory[k])){
-                            conn.enviarDatos("INSERT INTO peliculascategorias (idPelicula, idCategoria) VALUES('" + parts[0] + "', '" + (j + 1) + "')");
+                System.out.println("id: "+ parts[0] + " Movie: " + descandenarYear[0] + " Year: " + year); 
+                //conn.enviarDatosPelicula(Integer.parseInt(parts[0]), descandenarYear[0], Integer.parseInt(year));
+                
+                if(i == sheet.getLastRowNum()){
+                    if(arrayCat.size() == 18){
+                        for (int l = 0; l < arrayCat.size(); l++) {
+                           //conn.enviarDatosCategoria(arrayCat.get(l));
                         }
+                        
                     }
                 }
+                
             }
-                for (int l = 0; l < arrayCat.size(); l++) {
-                    conn.enviarDatos("INSERT INTO categorias(descripcion) VALUES(\""+arrayCat.get(l)+"\")");
-                    System.out.println("Category: "+ arrayCat.get(l));
+            
+            for (int i = 0; i < sheet.getLastRowNum() + 1; i++) {
+                row = sheet.getRow(i);
+                String cadena_texto =  "";
+                
+                for (int j = 0; j < row.getLastCellNum(); j++) {
+                    cell = row.getCell(j);
+                    cadena_texto += cell.toString();
                 }
- 
+                
+                parts = cadena_texto.split("::");
+                arrayCategory = parts[2].split("\\|");
+                for (String c: arrayCategory) {
+                    //conn.enviarDatosDualTable(Integer.parseInt(parts[0]), conn.traerCategoria(c)); 
+                }
+                
+            }
+            conn.finalizarCommit();
+            System.out.println("");
+            System.out.println("Data de Movies Insertada");
+            System.out.println("");
+            
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println(e.getMessage());
         }
         

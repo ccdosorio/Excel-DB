@@ -1,31 +1,24 @@
-Create database Movies;
+CREATE DATABASE db_movies;
 
-use Movies;
+USE db_movies;
 
-Create table Peliculas(
-	id int primary key,
-    descripcion varchar(250),
-    yearMovie int
+CREATE TABLE pelicula (
+	codigo_pelicula INT PRIMARY KEY,
+	descripcion VARCHAR(250),
+	anio INT
 );
 
-
-Create table Categorias(
-	id int primary key auto_increment,
-	descripcion varchar(250)
+CREATE TABLE genero(
+	codigo_genero INT AUTO_INCREMENT PRIMARY KEY,
+	descripcion VARCHAR(250)
 );
 
+CREATE TABLE pelicula_genero(
+	codigo_pelicula INT,
+	codigo_genero INT,
+	PRIMARY KEY (codigo_pelicula,codigo_genero),
+	KEY `FK_pelicula_genero` (codigo_genero),
+	CONSTRAINT `FK_pelicula_genero` FOREIGN KEY (codigo_genero) REFERENCES genero (codigo_genero),
+	CONSTRAINT `FK_pelicula_genero_pelicula` FOREIGN KEY (codigo_pelicula) REFERENCES pelicula (codigo_pelicula)
 
-Create table peliculascategorias(
-	idPelicula int, 
-    idCategoria int
-	
-);
-
-
-Select *from Peliculas;
-
-Select * from Categorias;
-
-
-Truncate table Peliculas;
-Truncate table Categorias;
+)
