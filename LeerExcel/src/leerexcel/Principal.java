@@ -85,12 +85,12 @@ public class Principal {
                 }
                 
                 System.out.println("id: "+ parts[0] + " Movie: " + descandenarYear[0] + " Year: " + year); 
-                //conn.enviarDatosPelicula(Integer.parseInt(parts[0]), descandenarYear[0], Integer.parseInt(year));
+                conn.enviarDatosPelicula(Integer.parseInt(parts[0]), descandenarYear[0], Integer.parseInt(year));
                 
                 if(i == sheet.getLastRowNum()){
                     if(arrayCat.size() == 18){
                         for (int l = 0; l < arrayCat.size(); l++) {
-                           //conn.enviarDatosCategoria(arrayCat.get(l));
+                           conn.enviarDatosCategoria(arrayCat.get(l));
                         }
                         
                     }
@@ -110,7 +110,7 @@ public class Principal {
                 parts = cadena_texto.split("::");
                 arrayCategory = parts[2].split("\\|");
                 for (String c: arrayCategory) {
-                    //conn.enviarDatosDualTable(Integer.parseInt(parts[0]), conn.traerCategoria(c)); 
+                    conn.enviarDatosDualTable(Integer.parseInt(parts[0]), conn.traerCategoria(c)); 
                 }
                 
             }

@@ -24,7 +24,7 @@ public class ConnectionDB {
     public void connDataBase() throws Exception {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_movies","root","");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/db_movies?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=root");
             System.out.println("!!!!Successfull!!!!");  
         } catch (Exception e) {
             throw e;
@@ -62,7 +62,7 @@ public class ConnectionDB {
     
     public void enviarDatosDualTable(int codigo_pelicula, int codigo_categoria){
         try {
-            ps = connect.prepareStatement("INSERT INTO pelicula_genero(codigo_pelicula, codigo_categoria) VALUES(?,?)");
+            ps = connect.prepareStatement("INSERT INTO pelicula_genero(codigo_pelicula, codigo_genero) VALUES(?,?)");
             ps.setInt(1, codigo_pelicula);
             ps.setInt(2, codigo_categoria);
             ps.executeUpdate();
@@ -79,7 +79,7 @@ public class ConnectionDB {
                 ps = connect.prepareStatement("SELECT * FROM genero");
                 rs = ps.executeQuery();
                 while(rs.next()){
-                listaGenero.add( new Categoria(rs.getInt("codigo_categoria"), rs.getString("descripcion")));
+                listaGenero.add( new Categoria(rs.getInt("codigo_genero"), rs.getString("descripcion")));
                 }
             }
             
